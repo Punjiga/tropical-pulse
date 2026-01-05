@@ -46,11 +46,26 @@ export function ManosasSection() {
       price: item.price,
       color: item.color,
     })
+
     toast({
-      title: "¡Agregado al carrito!",
-      description: `${item.name} se agregó correctamente.`,
+      description: (
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-full text-xl shadow-sm"
+            style={{ backgroundColor: `${item.color}20`, color: item.color }}
+          >
+            {item.emoji}
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-base">¡Agregado con éxito!</span>
+            <span className="text-sm text-foreground/80">{item.name} está en tu carrito.</span>
+          </div>
+        </div>
+      ),
+      duration: 3000,
+      className: "border-l-4",
+      style: { borderLeftColor: item.color }
     })
-    setIsOpen(true)
   }
 
   return (
@@ -70,7 +85,7 @@ export function ManosasSection() {
           </p>
         </motion.div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-3">
           {manosas.map((item, index) => (
             <motion.div
               key={item.id}
@@ -78,22 +93,17 @@ export function ManosasSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: index * 0.15 }}
-              whileHover={{ y: -8 }}
-              className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-lg transition-shadow hover:shadow-xl"
-              style={{ borderColor: item.color, borderWidth: "2px" }}
+              style={{ "--glow-color": `${item.color}60` } as React.CSSProperties}
+              className="neon-glow cursor-pointer rounded-2xl bg-card shadow-lg transition-all"
             >
-              {/* Card Header with Emoji */}
+              {/* Card Header with Emoji - Moved overflow-hidden here */}
               <div
-                className="relative flex h-48 items-center justify-center"
+                className="relative flex h-48 items-center justify-center overflow-hidden rounded-t-2xl"
                 style={{ background: `linear-gradient(135deg, ${item.color}20, ${item.color}40)` }}
               >
                 <motion.span
                   className="emoji-shadow text-8xl"
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: item.id === "green-goddess" ? [0, -10, 10, 0] : 0,
-                    filter: item.id === "purple-power" ? "brightness(1.3)" : "none",
-                  }}
+                  whileHover={{ scale: 1.2 }}
                   transition={{ duration: 0.3 }}
                 >
                   {item.emoji}
@@ -118,10 +128,13 @@ export function ManosasSection() {
                   </span>
                   <motion.button
                     onClick={() => handleAddToCart(item)}
-                    className="cursor-pointer rounded-full px-4 py-2 font-semibold text-accent-foreground transition-all"
-                    style={{ backgroundColor: item.color }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 px-6 py-2 font-semibold transition-all"
+                    style={{
+                      "--fill-color": item.color,
+                      "--hover-text": "white",
+                      borderColor: item.color,
+                      color: item.color
+                    } as React.CSSProperties}
                   >
                     Agregar
                   </motion.button>

@@ -165,110 +165,112 @@ export function BuildYourOwn() {
           layout
           transition={{ duration: 0.4, ease: "easeInOut" }}
           style={{ "--glow-color": "#FDB92760" } as React.CSSProperties}
-          className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg overflow-hidden neon-glow"
+          className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg neon-glow transition-all"
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {currentStep === 0 && (
-              <motion.div
-                key="base"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h3 className="mb-6 text-center font-serif text-xl font-bold text-card-foreground">Elige tu Base</h3>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {bases.map((base) => (
-                    <motion.button
-                      key={base.id}
-                      onClick={() => setSelectedBase(base.id)}
-                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedBase === base.id
-                        ? "bg-primary/20 ring-2 ring-primary"
-                        : "bg-secondary hover:bg-secondary/80"
-                        }`}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <span className="emoji-shadow mb-2 block text-4xl">{base.emoji}</span>
-                      <span className="block text-sm font-medium text-card-foreground">{base.name}</span>
-                      <span className="text-xs text-muted-foreground">₡{base.price}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {currentStep === 1 && (
-              <motion.div
-                key="fruits"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Elige tus Frutas</h3>
-                <p className="mb-6 text-center text-sm text-muted-foreground">Máximo 3 frutas</p>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                  {fruits.map((fruit) => {
-                    const isSelected = selectedFruits.includes(fruit.id);
-                    const isMaxReached = selectedFruits.length >= 3;
-                    const isDisabled = !isSelected && isMaxReached;
-
-                    return (
+          <div className="overflow-hidden rounded-2xl h-full w-full">
+            <AnimatePresence mode="wait" initial={false}>
+              {currentStep === 0 && (
+                <motion.div
+                  key="base"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-6 text-center font-serif text-xl font-bold text-card-foreground">Elige tu Base</h3>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    {bases.map((base) => (
                       <motion.button
-                        key={fruit.id}
-                        onClick={() => !isDisabled && toggleFruit(fruit.id)}
-                        disabled={isDisabled}
-                        className={`cursor-pointer rounded-xl p-4 text-center transition-all ${isSelected
-                          ? "bg-accent/20 ring-2 ring-accent"
-                          : isDisabled
-                            ? "bg-secondary/30 opacity-40 grayscale cursor-not-allowed scale-95"
-                            : "bg-secondary hover:bg-secondary/80"
+                        key={base.id}
+                        onClick={() => setSelectedBase(base.id)}
+                        className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedBase === base.id
+                          ? "bg-primary/20 ring-2 ring-primary"
+                          : "bg-secondary hover:bg-secondary/80"
                           }`}
-                        whileHover={!isDisabled ? { scale: 1.03 } : {}}
-                        whileTap={!isDisabled ? { scale: 0.97 } : {}}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                       >
-                        <span className="emoji-shadow mb-2 block text-4xl">{fruit.emoji}</span>
-                        <span className="block text-sm font-medium text-card-foreground">{fruit.name}</span>
-                        <span className="text-xs text-muted-foreground">₡{fruit.price}</span>
+                        <span className="emoji-shadow mb-2 block text-4xl">{base.emoji}</span>
+                        <span className="block text-sm font-medium text-card-foreground">{base.name}</span>
+                        <span className="text-xs text-muted-foreground">₡{base.price}</span>
                       </motion.button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-            {currentStep === 2 && (
-              <motion.div
-                key="addons"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Agrega Extras</h3>
-                <p className="mb-6 text-center text-sm text-muted-foreground">Opcional - mejora tu smoothie</p>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                  {addons.map((addon) => (
-                    <motion.button
-                      key={addon.id}
-                      onClick={() => toggleAddon(addon.id)}
-                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedAddons.includes(addon.id)
-                        ? "bg-destructive/20 ring-2 ring-destructive"
-                        : "bg-secondary hover:bg-secondary/80"
-                        }`}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <span className="emoji-shadow mb-2 block text-4xl">{addon.emoji}</span>
-                      <span className="block text-sm font-medium text-card-foreground">{addon.name}</span>
-                      <span className="text-xs text-muted-foreground">₡{addon.price}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {currentStep === 1 && (
+                <motion.div
+                  key="fruits"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Elige tus Frutas</h3>
+                  <p className="mb-6 text-center text-sm text-muted-foreground">Máximo 3 frutas</p>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                    {fruits.map((fruit) => {
+                      const isSelected = selectedFruits.includes(fruit.id);
+                      const isMaxReached = selectedFruits.length >= 3;
+                      const isDisabled = !isSelected && isMaxReached;
+
+                      return (
+                        <motion.button
+                          key={fruit.id}
+                          onClick={() => !isDisabled && toggleFruit(fruit.id)}
+                          disabled={isDisabled}
+                          className={`cursor-pointer rounded-xl p-4 text-center transition-all ${isSelected
+                            ? "bg-accent/20 ring-2 ring-accent"
+                            : isDisabled
+                              ? "bg-secondary/30 opacity-40 grayscale cursor-not-allowed scale-95"
+                              : "bg-secondary hover:bg-secondary/80"
+                            }`}
+                          whileHover={!isDisabled ? { scale: 1.03 } : {}}
+                          whileTap={!isDisabled ? { scale: 0.97 } : {}}
+                        >
+                          <span className="emoji-shadow mb-2 block text-4xl">{fruit.emoji}</span>
+                          <span className="block text-sm font-medium text-card-foreground">{fruit.name}</span>
+                          <span className="text-xs text-muted-foreground">₡{fruit.price}</span>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 2 && (
+                <motion.div
+                  key="addons"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Agrega Extras</h3>
+                  <p className="mb-6 text-center text-sm text-muted-foreground">Opcional - mejora tu smoothie</p>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                    {addons.map((addon) => (
+                      <motion.button
+                        key={addon.id}
+                        onClick={() => toggleAddon(addon.id)}
+                        className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedAddons.includes(addon.id)
+                          ? "bg-destructive/20 ring-2 ring-destructive"
+                          : "bg-secondary hover:bg-secondary/80"
+                          }`}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                      >
+                        <span className="emoji-shadow mb-2 block text-4xl">{addon.emoji}</span>
+                        <span className="block text-sm font-medium text-card-foreground">{addon.name}</span>
+                        <span className="text-xs text-muted-foreground">₡{addon.price}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
 
         {/* Navigation Buttons */}

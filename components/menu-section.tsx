@@ -285,11 +285,11 @@ export function MenuSection() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 style={{ "--glow-color": `${item.color}60` } as React.CSSProperties}
-                className="group neon-glow cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow duration-300"
+                className="neon-glow cursor-pointer rounded-xl bg-card shadow-md transition-all"
               >
-                {/* Card Header */}
+                {/* Card Header - Moved overflow-hidden here to avoid clipping neon glow */}
                 <div
-                  className="relative flex h-32 items-center justify-center transition-colors"
+                  className="relative flex h-32 items-center justify-center overflow-hidden rounded-t-xl transition-colors"
                   style={{ background: `linear-gradient(135deg, ${item.color}30, ${item.color}50)` }}
                 >
                   <motion.span
@@ -319,10 +319,12 @@ export function MenuSection() {
                     </span>
                     <motion.button
                       onClick={() => handleAddToCart(item)}
-                      // Dynamic color fill effect
                       className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 px-4 py-1.5 text-sm font-semibold transition-all"
                       style={{
                         "--fill-color": item.color,
+                        "--hover-text": ["Mango Madness", "Pineapple Dream", "Kiwi Kick", "Citrus Splash", "Vanilla Sky", "Banana Boost"].includes(item.name)
+                          ? "var(--primary-foreground)"
+                          : "white",
                         borderColor: item.color,
                         color: item.color
                       } as React.CSSProperties}

@@ -226,7 +226,7 @@ html {
   }
 
   .btn-refreshing:hover {
-    color: var(--primary-foreground) !important;
+    color: var(--hover-text, white) !important;
     border-color: var(--fill-color) !important;
   }
 
@@ -236,7 +236,7 @@ html {
   }
 
   .neon-glow:hover {
-    box-shadow: 0 0 25px var(--glow-color), 0 0 50px var(--glow-color);
+    box-shadow: 0 0 30px var(--glow-color), 0 0 60px var(--glow-color);
   }
 }
 
