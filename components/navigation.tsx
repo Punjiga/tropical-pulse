@@ -66,8 +66,8 @@ export function Navigation() {
             <motion.button
               onClick={() => setIsOpen(true)}
               className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground shadow-md transition-all hover:bg-primary/90 hover:shadow-lg"
-              animate={cartCount > 0 ? { y: [0, -4, 0] } : {}}
-              transition={cartCount > 0 ? { duration: 2, repeat: Infinity, ease: "easeInOut" } : {}}
+              animate={cartCount > 0 ? { y: [0, -12, 0], scale: [1, 1.1, 1] } : {}}
+              transition={cartCount > 0 ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" } : {}}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               aria-label={`Carrito con ${cartCount} items`}

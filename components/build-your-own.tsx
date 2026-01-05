@@ -81,8 +81,11 @@ export function BuildYourOwn() {
       color: "#FDB927",
     })
 
-    toast({ title: "¡Smoothie personalizado agregado!", description: "Tu creación está en el carrito." })
-    setIsOpen(true)
+    toast({
+      title: " ¡Smoothie personalizado agregado!",
+      description: "Tu creación está en el carrito.",
+      duration: 3500
+    })
 
     // Reset
     setCurrentStep(0)
@@ -263,8 +266,6 @@ export function BuildYourOwn() {
               : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
             disabled={currentStep === 0}
-            whileHover={currentStep > 0 ? { scale: 1.05 } : {}}
-            whileTap={currentStep > 0 ? { scale: 0.95 } : {}}
           >
             <ChevronLeft className="h-5 w-5" />
             Anterior
@@ -278,8 +279,6 @@ export function BuildYourOwn() {
                 : "cursor-not-allowed bg-primary/50 text-primary-foreground/50"
                 }`}
               disabled={!canProceed()}
-              whileHover={canProceed() ? { scale: 1.05 } : {}}
-              whileTap={canProceed() ? { scale: 0.95 } : {}}
             >
               Siguiente
               <ChevronRight className="h-5 w-5" />
@@ -288,8 +287,6 @@ export function BuildYourOwn() {
             <motion.button
               onClick={handleAddToCart}
               className="flex cursor-pointer items-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground transition-all hover:bg-accent/90"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Agregar al Carrito 🎉
             </motion.button>
