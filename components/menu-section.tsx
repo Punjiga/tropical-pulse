@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCart } from "./cart-context"
 import { useToast } from "@/hooks/use-toast"
-import { ShoppingCart } from "lucide-react"
 
 const menuItems = [
   {
@@ -150,7 +149,7 @@ const categories = ["Todos", "Detox", "Energía", "Proteína"]
 export function MenuSection() {
   const [activeCategory, setActiveCategory] = useState("Todos")
   const [visibleCount, setVisibleCount] = useState(6)
-  const { addItem, setIsOpen } = useCart()
+  const { addItem } = useCart()
   const { toast } = useToast()
   const [isMobile, setIsMobile] = useState(false)
 

@@ -206,28 +206,22 @@ html {
     z-index: 1;
   }
 
-  .btn-refreshing::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background-color: var(--primary);
-    /* Or accent */
-    opacity: 0.8;
-    transition: height 0.4s ease-in-out;
-    z-index: -1;
-  }
+  background: linear-gradient(to top, currentColor 50%, transparent 50%);
+  background-size: 100% 200%;
+  background-position: top;
+  transition: background-position 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+  color 0.3s ease-in-out,
+  transform 0.1s;
+}
 
-  .btn-refreshing:hover::before {
-    height: 100%;
-  }
+.btn-refreshing:hover {
+  background-position: bottom;
+  color: white !important;
+  animation: shake 0.4s ease-in-out 0.4s;
+  /* Shake after fill */
+}
 
-  .btn-refreshing:hover {
-    animation: shake 0.4s ease-in-out 0.4s;
-    /* Shake after fill */
-  }
+/* Neon Glow Utilities */
 }
 
 /* Gradient text animation */
