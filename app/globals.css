@@ -204,24 +204,22 @@ html {
     position: relative;
     overflow: hidden;
     z-index: 1;
+    background: linear-gradient(to top, currentColor 50%, transparent 50%);
+    background-size: 100% 200%;
+    background-position: top;
+    transition: background-position 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+      color 0.3s ease-in-out,
+      transform 0.1s;
   }
 
-  background: linear-gradient(to top, currentColor 50%, transparent 50%);
-  background-size: 100% 200%;
-  background-position: top;
-  transition: background-position 0.5s cubic-bezier(0.19, 1, 0.22, 1),
-  color 0.3s ease-in-out,
-  transform 0.1s;
-}
+  .btn-refreshing:hover {
+    background-position: bottom;
+    color: white !important;
+    animation: shake 0.4s ease-in-out 0.4s;
+    /* Shake after fill */
+  }
 
-.btn-refreshing:hover {
-  background-position: bottom;
-  color: white !important;
-  animation: shake 0.4s ease-in-out 0.4s;
-  /* Shake after fill */
-}
-
-/* Neon Glow Utilities */
+  /* Neon Glow Utilities */
 }
 
 /* Gradient text animation */
