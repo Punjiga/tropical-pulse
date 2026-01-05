@@ -267,8 +267,6 @@ export function MenuSection() {
                 ? "bg-primary text-primary-foreground shadow-md"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                 }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               {category}
             </motion.button>
@@ -327,8 +325,6 @@ export function MenuSection() {
                       onClick={() => handleAddToCart(item)}
                       // Added btn-refreshing class for "fill up" effect
                       className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 border-primary px-4 py-1.5 text-sm font-semibold text-primary"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       Agregar
                     </motion.button>
@@ -345,8 +341,6 @@ export function MenuSection() {
             <motion.button
               onClick={handleLoadMore}
               className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Cargar Más
             </motion.button>
@@ -355,8 +349,6 @@ export function MenuSection() {
             <motion.button
               onClick={handleShowLess}
               className="cursor-pointer rounded-full bg-secondary px-6 py-3 font-semibold text-secondary-foreground transition-all hover:bg-secondary/80"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Ver Menos
             </motion.button>

@@ -122,7 +122,6 @@ export function CartSidebar() {
                               <motion.button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                 className="cursor-pointer rounded-full bg-card p-1.5 text-muted-foreground transition-colors hover:text-foreground"
-                                whileTap={{ scale: 0.9 }}
                                 aria-label="Reducir cantidad"
                               >
                                 <Minus className="h-4 w-4" />
@@ -131,7 +130,6 @@ export function CartSidebar() {
                               <motion.button
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                 className="cursor-pointer rounded-full bg-card p-1.5 text-muted-foreground transition-colors hover:text-foreground"
-                                whileTap={{ scale: 0.9 }}
                                 aria-label="Aumentar cantidad"
                               >
                                 <Plus className="h-4 w-4" />
@@ -139,7 +137,6 @@ export function CartSidebar() {
                               <motion.button
                                 onClick={() => removeItem(item.id)}
                                 className="ml-2 cursor-pointer rounded-full p-1.5 text-destructive/70 transition-colors hover:text-destructive"
-                                whileTap={{ scale: 0.9 }}
                                 aria-label="Eliminar item"
                               >
                                 <Trash2 className="h-4 w-4" />
@@ -173,9 +170,7 @@ export function CartSidebar() {
                 </div>
                 <motion.button
                   onClick={() => setShowCheckout(true)}
-                  className="w-full cursor-pointer rounded-full bg-primary py-4 font-semibold text-primary-foreground transition-all hover:bg-primary/80"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="w-full cursor-pointer rounded-full bg-primary py-4 font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90"
                 >
                   Proceder al Checkout
                 </motion.button>

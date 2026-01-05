@@ -39,13 +39,9 @@ export function Navigation() {
           <motion.a
             href="#inicio"
             className="flex cursor-pointer items-center gap-2 font-serif text-xl font-bold text-foreground md:text-2xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             <motion.span
               className="text-2xl md:text-3xl"
-              whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-              transition={{ duration: 0.5 }}
             >
               🌴
             </motion.span>
@@ -58,9 +54,7 @@ export function Navigation() {
               <motion.a
                 key={link.name}
                 href={link.href}
-                className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground hover:scale-105"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground"
               >
                 {link.name}
               </motion.a>
@@ -72,8 +66,6 @@ export function Navigation() {
             <motion.button
               onClick={() => setIsOpen(true)}
               className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground shadow-md transition-all hover:bg-primary/90 hover:shadow-lg"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               aria-label={`Carrito con ${cartCount} items`}
             >
               <ShoppingCart className="h-5 w-5" />
