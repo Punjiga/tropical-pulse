@@ -28,8 +28,8 @@ export function CartSidebar() {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 right-0 top-0 z-50 flex w-full max-w-md flex-col bg-card shadow-2xl"
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed bottom-0 right-0 top-0 z-50 flex w-full max-w-md flex-col border-l border-border/50 bg-card/95 backdrop-blur-xl shadow-2xl"
           >
             {/* Header */}
             <div className="border-b border-border p-4">

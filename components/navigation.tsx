@@ -71,8 +71,8 @@ export function Navigation() {
           <div className="flex items-center gap-4">
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90 btn-refreshing"
-              whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+              className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground shadow-md transition-all hover:bg-primary/90 hover:shadow-lg"
+              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               aria-label={`Carrito con ${cartCount} items`}
             >

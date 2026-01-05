@@ -210,13 +210,10 @@ export function MenuSection() {
           </div>
         </div>
       ),
-      duration: 3000,
+      duration: 5000,
       className: "border-l-4",
       style: { borderLeftColor: item.color }
     })
-
-    // Do NOT open cart (Request #12)
-    // setIsOpen(false) // Not needed if we don't call true.
   }
 
   const handleLoadMore = () => {
@@ -225,18 +222,14 @@ export function MenuSection() {
 
   const handleShowLess = () => {
     setVisibleCount(isMobile ? 3 : 6)
-    // Smooth scroll back to menu start if we collapsed a lot
-    /* const menuSection = document.getElementById("menu")
-    menuSection?.scrollIntoView({ behavior: "smooth" }) */
-    // User requested "show only items currently visible", actually they said:
-    // "show only the items that are currently visible, not just drop them to the bottom"
-    // Wait, "show only the items that are currently visible" is ambiguous.
-    // "If I click the 'see less' button, it should show only the items that are currently visible, not just drop them to the bottom like it is now."
-    // Current behavior: jumps to 3 or 6. 
-    // Desired: "show only the items that are currently visible" -> This likely means "collapse to the default view" (3 or 6) 
-    // but do it *smoothly*. "not just drop them to the bottom" might refer to scroll position?
-    // "Drop to the bottom" usually implies the user feels lost.
-    // I will implement smooth collapse to 3/6.
+    // Smooth scroll back to menu start
+    const menuSection = document.getElementById("menu")
+    if (menuSection) {
+      window.scrollTo({
+        top: menuSection.offsetTop - 100,
+        behavior: "smooth"
+      })
+    }
   }
 
   return (
@@ -334,8 +327,7 @@ export function MenuSection() {
                       onClick={() => handleAddToCart(item)}
                       // Added btn-refreshing class for "fill up" effect
                       className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 border-primary px-4 py-1.5 text-sm font-semibold text-primary"
-                      whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }} // Rotating shake
-                      transition={{ rotate: { duration: 0.3 } }}
+                      whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       Agregar
@@ -352,8 +344,8 @@ export function MenuSection() {
           {hasMore && (
             <motion.button
               onClick={handleLoadMore}
-              className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all hover:text-white"
-              whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+              className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Cargar Más
