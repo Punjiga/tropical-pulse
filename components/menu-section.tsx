@@ -210,7 +210,7 @@ export function MenuSection() {
           </div>
         </div>
       ),
-      duration: 3500,
+      duration: 3000,
       className: "border-l-4",
       style: { borderLeftColor: item.color }
     })
@@ -284,12 +284,8 @@ export function MenuSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                whileHover={{
-                  y: -5,
-                  // Neon light effect behind card matching card color
-                  boxShadow: `0 0 20px ${item.color}60, 0 0 40px ${item.color}40`
-                }}
-                className="group cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow duration-300"
+                style={{ "--glow-color": `${item.color}60` } as React.CSSProperties}
+                className="group neon-glow cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow duration-300"
               >
                 {/* Card Header */}
                 <div
@@ -298,7 +294,7 @@ export function MenuSection() {
                 >
                   <motion.span
                     className="emoji-shadow text-6xl"
-                    whileHover={{ scale: 1.15, rotate: [-5, 5, 0] }}
+                    whileHover={{ scale: 1.15 }}
                     transition={{ duration: 0.3 }}
                   >
                     {item.emoji}
@@ -323,8 +319,13 @@ export function MenuSection() {
                     </span>
                     <motion.button
                       onClick={() => handleAddToCart(item)}
-                      // Added btn-refreshing class for "fill up" effect
-                      className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 border-primary px-4 py-1.5 text-sm font-semibold text-primary"
+                      // Dynamic color fill effect
+                      className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 px-4 py-1.5 text-sm font-semibold transition-all"
+                      style={{
+                        "--fill-color": item.color,
+                        borderColor: item.color,
+                        color: item.color
+                      } as React.CSSProperties}
                     >
                       Agregar
                     </motion.button>

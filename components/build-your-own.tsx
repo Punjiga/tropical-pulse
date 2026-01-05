@@ -82,9 +82,22 @@ export function BuildYourOwn() {
     })
 
     toast({
-      title: " ¡Smoothie personalizado agregado!",
-      description: "Tu creación está en el carrito.",
-      duration: 3500
+      description: (
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-full text-xl shadow-sm"
+            style={{ backgroundColor: "#FDB92720", color: "#FDB927" }}
+          >
+            🎨
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-base">¡Smoothie personalizado!</span>
+            <span className="text-sm text-foreground/80">Tu creación única ya está en el carrito.</span>
+          </div>
+        </div>
+      ),
+      duration: 3000,
+      className: "border-l-4 border-[#FDB927]",
     })
 
     // Reset
@@ -151,7 +164,8 @@ export function BuildYourOwn() {
         <motion.div
           layout
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg overflow-hidden"
+          style={{ "--glow-color": "#FDB92760" } as React.CSSProperties}
+          className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg overflow-hidden neon-glow"
         >
           <AnimatePresence mode="wait" initial={false}>
             {currentStep === 0 && (
@@ -286,7 +300,8 @@ export function BuildYourOwn() {
           ) : (
             <motion.button
               onClick={handleAddToCart}
-              className="flex cursor-pointer items-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground transition-all hover:bg-accent/90"
+              className="btn-refreshing relative overflow-hidden flex cursor-pointer items-center gap-2 rounded-full border-2 border-accent bg-transparent px-6 py-3 font-semibold text-accent transition-all"
+              style={{ "--fill-color": "#FDB927" } as React.CSSProperties}
             >
               Agregar al Carrito 🎉
             </motion.button>
