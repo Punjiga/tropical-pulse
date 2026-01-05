@@ -147,9 +147,10 @@ export function BuildYourOwn() {
         {/* Step Content */}
         <motion.div
           layout
+          transition={{ duration: 0.4, ease: "easeInOut" }}
           className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg overflow-hidden"
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             {currentStep === 0 && (
               <motion.div
                 key="base"
@@ -165,8 +166,8 @@ export function BuildYourOwn() {
                       key={base.id}
                       onClick={() => setSelectedBase(base.id)}
                       className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedBase === base.id
-                          ? "bg-primary/20 ring-2 ring-primary"
-                          : "bg-secondary hover:bg-secondary/80"
+                        ? "bg-primary/20 ring-2 ring-primary"
+                        : "bg-secondary hover:bg-secondary/80"
                         }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -193,7 +194,8 @@ export function BuildYourOwn() {
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                   {fruits.map((fruit) => {
                     const isSelected = selectedFruits.includes(fruit.id);
-                    const isDisabled = !isSelected && selectedFruits.length >= 3;
+                    const isMaxReached = selectedFruits.length >= 3;
+                    const isDisabled = !isSelected && isMaxReached;
 
                     return (
                       <motion.button
@@ -201,10 +203,10 @@ export function BuildYourOwn() {
                         onClick={() => !isDisabled && toggleFruit(fruit.id)}
                         disabled={isDisabled}
                         className={`cursor-pointer rounded-xl p-4 text-center transition-all ${isSelected
-                            ? "bg-accent/20 ring-2 ring-accent"
-                            : isDisabled
-                              ? "bg-secondary/50 opacity-50 cursor-not-allowed"
-                              : "bg-secondary hover:bg-secondary/80"
+                          ? "bg-accent/20 ring-2 ring-accent"
+                          : isDisabled
+                            ? "bg-secondary/30 opacity-40 grayscale cursor-not-allowed scale-95"
+                            : "bg-secondary hover:bg-secondary/80"
                           }`}
                         whileHover={!isDisabled ? { scale: 1.03 } : {}}
                         whileTap={!isDisabled ? { scale: 0.97 } : {}}
@@ -235,8 +237,8 @@ export function BuildYourOwn() {
                       key={addon.id}
                       onClick={() => toggleAddon(addon.id)}
                       className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedAddons.includes(addon.id)
-                          ? "bg-destructive/20 ring-2 ring-destructive"
-                          : "bg-secondary hover:bg-secondary/80"
+                        ? "bg-destructive/20 ring-2 ring-destructive"
+                        : "bg-secondary hover:bg-secondary/80"
                         }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
@@ -257,8 +259,8 @@ export function BuildYourOwn() {
           <motion.button
             onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
             className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${currentStep === 0
-                ? "cursor-not-allowed bg-secondary/50 text-muted-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              ? "cursor-not-allowed bg-secondary/50 text-muted-foreground"
+              : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               }`}
             disabled={currentStep === 0}
             whileHover={currentStep > 0 ? { scale: 1.05 } : {}}
@@ -272,8 +274,8 @@ export function BuildYourOwn() {
             <motion.button
               onClick={() => setCurrentStep((prev) => prev + 1)}
               className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${canProceed()
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "cursor-not-allowed bg-primary/50 text-primary-foreground/50"
+                ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                : "cursor-not-allowed bg-primary/50 text-primary-foreground/50"
                 }`}
               disabled={!canProceed()}
               whileHover={canProceed() ? { scale: 1.05 } : {}}

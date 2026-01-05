@@ -50,21 +50,34 @@ export function CartSidebar() {
               </div>
 
               {/* Shipping Progress */}
-              <div className="mt-2">
+              {/* Shipping Progress */}
+              <div className="mt-4 rounded-xl border border-accent/20 bg-accent/5 p-4">
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="font-semibold text-foreground/80">Meta para Envío Gratis:</span>
+                  <span className="font-bold text-primary">₡10,000</span>
+                </div>
                 {total >= 10000 ? (
-                  <div className="rounded-lg bg-green-100 p-2 text-center text-sm font-bold text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                    ✨ ¡Envío GRATIS! ✨
-                  </div>
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="flex items-center justify-center gap-2 rounded-lg bg-green-100 p-2 text-center text-sm font-bold text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                  >
+                    <span>✨</span>
+                    ¡Felicidades! Tienes envío GRATIS
+                    <span>✨</span>
+                  </motion.div>
                 ) : (
                   <div className="text-center">
-                    <p className="mb-1 text-sm text-muted-foreground">
-                      Agrega <span className="font-bold text-primary">₡{(10000 - total).toLocaleString()}</span> para envío gratis
+                    <p className="mb-2 text-sm text-muted-foreground">
+                      Te faltan <span className="font-bold text-destructive">₡{(10000 - total).toLocaleString()}</span> para envío gratis
                     </p>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                      <div
-                        className="h-full bg-primary transition-all duration-500"
-                        style={{ width: `${Math.min((total / 10000) * 100, 100)}%` }}
-                      ></div>
+                    <div className="h-3 w-full overflow-hidden rounded-full bg-secondary">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-primary to-accent"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min((total / 10000) * 100, 100)}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
                     </div>
                   </div>
                 )}

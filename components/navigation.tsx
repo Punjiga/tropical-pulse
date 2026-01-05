@@ -30,10 +30,10 @@ export function Navigation() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-4 ${scrolled ? "glass shadow-lg pt-0" : "bg-transparent"
+      className={`fixed top-4 left-4 right-4 z-50 transition-all duration-300 rounded-2xl ${scrolled ? "glass shadow-lg" : "bg-transparent"
         }`}
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="flex h-16 items-center justify-between md:h-20">
           {/* Logo */}
           <motion.a
@@ -58,7 +58,7 @@ export function Navigation() {
               <motion.a
                 key={link.name}
                 href={link.href}
-                className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground"
+                className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground hover:scale-105"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -71,11 +71,9 @@ export function Navigation() {
           <div className="flex items-center gap-4">
             <motion.button
               onClick={() => setIsOpen(true)}
-              className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90"
-              whileHover={{ scale: 1.1 }}
+              className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90 btn-refreshing"
+              whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
               whileTap={{ scale: 0.95 }}
-              animate={cartCount > 0 ? { scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] } : {}}
-              transition={{ duration: 0.5, repeat: cartCount > 0 ? Number.POSITIVE_INFINITY : 0, repeatDelay: 3 }}
               aria-label={`Carrito con ${cartCount} items`}
             >
               <ShoppingCart className="h-5 w-5" />
@@ -102,7 +100,7 @@ export function Navigation() {
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? <X className="h-8 w-8" /> : <Menu className="h-8 w-8" />}
             </motion.button>
           </div>
         </div>
@@ -115,15 +113,34 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
-            className="fixed inset-0 top-16 z-40 flex flex-col items-center justify-center bg-background/95 backdrop-blur-md md:hidden"
+            className="fixed inset-0 top-0 z-[60] flex flex-col items-center justify-center bg-background/95 backdrop-blur-xl md:hidden"
           >
-            <div className="flex flex-col items-center gap-8 px-6 py-4">
-              {navLinks.map((link) => (
+            {/* Close button inside modal for better UX */}
+            <motion.button
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute top-8 right-8 cursor-pointer rounded-full p-2 text-foreground/80 hover:bg-secondary"
+            >
+              <X className="h-10 w-10" />
+            </motion.button>
+
+            <div className="flex w-full flex-col items-center gap-8 px-6 py-4">
+              <motion.span
+                className="text-6xl mb-4"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.1 }}
+              >
+                🌴
+              </motion.span>
+              {navLinks.map((link, index) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="cursor-pointer font-serif text-3xl font-bold text-foreground transition-colors hover:text-primary"
+                  className="w-full text-center cursor-pointer font-serif text-4xl font-bold text-foreground transition-all hover:text-primary hover:scale-110"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + index * 0.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {link.name}

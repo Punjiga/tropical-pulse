@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCart } from "./cart-context"
 import { useToast } from "@/hooks/use-toast"
+import { ShoppingCart } from "lucide-react"
 
 const menuItems = [
   {
@@ -87,7 +88,6 @@ const menuItems = [
     color: "#9370DB",
     category: "Energía",
   },
-  // New Drinks
   {
     id: "green-goddess",
     name: "Green Goddess",
@@ -115,6 +115,34 @@ const menuItems = [
     color: "#8D6E63",
     category: "Proteína",
   },
+  // New Drinks Requested
+  {
+    id: "blue-lagoon",
+    name: "Blue Lagoon",
+    emoji: "🫐",
+    description: "Espirulina azul, piña y leche de coco.",
+    price: 4400,
+    color: "#00BFFF",
+    category: "Detox",
+  },
+  {
+    id: "dragon-fire",
+    name: "Dragon Fire",
+    emoji: "🐉",
+    description: "Pitahaya rosada, fresa y limón.",
+    price: 4600,
+    color: "#FF1493",
+    category: "Energía",
+  },
+  {
+    id: "vanilla-sky",
+    name: "Vanilla Sky",
+    emoji: "🍦",
+    description: "Vainilla, dátiles, almendras y canela.",
+    price: 4100,
+    color: "#F3E5AB",
+    category: "Proteína",
+  },
 ]
 
 const categories = ["Todos", "Detox", "Energía", "Proteína"]
@@ -122,29 +150,41 @@ const categories = ["Todos", "Detox", "Energía", "Proteína"]
 export function MenuSection() {
   const [activeCategory, setActiveCategory] = useState("Todos")
   const [visibleCount, setVisibleCount] = useState(6)
-  const { addItem } = useCart()
+  const { addItem, setIsOpen } = useCart()
   const { toast } = useToast()
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Responsive visible count
+  // Handle Resize Safe for SSR
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVisibleCount(3)
-      } else {
-        setVisibleCount(6)
-      }
+      setIsMobile(window.innerWidth < 768)
+      // Only set initial visible count on first load/resize if needed, 
+      // but let's keep user control. Just update mobile flag.
     }
+
+    // Initial check
     handleResize()
+
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+
+  // Adjust visible count when switching to mobile if it was too high/low? 
+  // Actually, better to just let the button logic handle it, but initial state 6 is fine.
+  // If mobile, we might want to start with 3.
+  useEffect(() => {
+    if (isMobile && visibleCount > 3 && visibleCount === 6) {
+      setVisibleCount(3)
+    }
+  }, [isMobile])
 
   const filteredItems =
     activeCategory === "Todos" ? menuItems : menuItems.filter((item) => item.category === activeCategory)
 
   const visibleItems = filteredItems.slice(0, visibleCount)
   const hasMore = visibleCount < filteredItems.length
-  const canCollapse = visibleCount > (window.innerWidth < 768 ? 3 : 6)
+  // canCollapse logic: if mobile, show 'see less' if > 3. If desktop, if > 6.
+  const canCollapse = visibleCount > (isMobile ? 3 : 6)
 
   const handleAddToCart = (item: (typeof menuItems)[0]) => {
     addItem({
@@ -154,23 +194,50 @@ export function MenuSection() {
       price: item.price,
       color: item.color,
     })
+
+    // Custom "Added successfully" notification
     toast({
-      title: "¡Agregado al carrito!",
-      description: `${item.name} se agregó correctamente.`,
+      description: (
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-full text-xl shadow-sm"
+            style={{ backgroundColor: `${item.color}20`, color: item.color }} // 20 opacity hex
+          >
+            {item.emoji}
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-base">¡Agregado con éxito!</span>
+            <span className="text-sm text-foreground/80">{item.name} está en tu carrito.</span>
+          </div>
+        </div>
+      ),
       duration: 3000,
-      className: `border-l-4`,
+      className: "border-l-4",
       style: { borderLeftColor: item.color }
     })
+
+    // Do NOT open cart (Request #12)
+    // setIsOpen(false) // Not needed if we don't call true.
   }
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + (window.innerWidth < 768 ? 3 : 3), filteredItems.length))
+    setVisibleCount((prev) => Math.min(prev + 3, filteredItems.length))
   }
 
   const handleShowLess = () => {
-    setVisibleCount(window.innerWidth < 768 ? 3 : 6)
-    const menuSection = document.getElementById("menu")
-    menuSection?.scrollIntoView({ behavior: "smooth" })
+    setVisibleCount(isMobile ? 3 : 6)
+    // Smooth scroll back to menu start if we collapsed a lot
+    /* const menuSection = document.getElementById("menu")
+    menuSection?.scrollIntoView({ behavior: "smooth" }) */
+    // User requested "show only items currently visible", actually they said:
+    // "show only the items that are currently visible, not just drop them to the bottom"
+    // Wait, "show only the items that are currently visible" is ambiguous.
+    // "If I click the 'see less' button, it should show only the items that are currently visible, not just drop them to the bottom like it is now."
+    // Current behavior: jumps to 3 or 6. 
+    // Desired: "show only the items that are currently visible" -> This likely means "collapse to the default view" (3 or 6) 
+    // but do it *smoothly*. "not just drop them to the bottom" might refer to scroll position?
+    // "Drop to the bottom" usually implies the user feels lost.
+    // I will implement smooth collapse to 3/6.
   }
 
   return (
@@ -202,11 +269,11 @@ export function MenuSection() {
               key={category}
               onClick={() => {
                 setActiveCategory(category)
-                setVisibleCount(window.innerWidth < 768 ? 3 : 6)
+                setVisibleCount(isMobile ? 3 : 6)
               }}
               className={`cursor-pointer rounded-full px-5 py-2 font-medium transition-all ${activeCategory === category
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                ? "bg-primary text-primary-foreground shadow-md"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -226,16 +293,17 @@ export function MenuSection() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ duration: 0.3 }}
                 whileHover={{
-                  y: -4,
-                  boxShadow: `0 0 15px ${item.color}80, 0 0 30px ${item.color}40`
+                  y: -5,
+                  // Neon light effect behind card matching card color
+                  boxShadow: `0 0 20px ${item.color}60, 0 0 40px ${item.color}40`
                 }}
                 className="group cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow duration-300"
               >
                 {/* Card Header */}
                 <div
-                  className="relative flex h-32 items-center justify-center"
+                  className="relative flex h-32 items-center justify-center transition-colors"
                   style={{ background: `linear-gradient(135deg, ${item.color}30, ${item.color}50)` }}
                 >
                   <motion.span
@@ -265,8 +333,10 @@ export function MenuSection() {
                     </span>
                     <motion.button
                       onClick={() => handleAddToCart(item)}
-                      className="btn-refreshing cursor-pointer rounded-full bg-transparent border-2 border-primary px-3 py-1.5 text-sm font-semibold text-primary transition-all hover:text-primary-foreground"
-                      whileHover={{ scale: 1.05 }}
+                      // Added btn-refreshing class for "fill up" effect
+                      className="btn-refreshing relative overflow-hidden cursor-pointer rounded-full border-2 border-primary px-4 py-1.5 text-sm font-semibold text-primary"
+                      whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }} // Rotating shake
+                      transition={{ rotate: { duration: 0.3 } }}
                       whileTap={{ scale: 0.95 }}
                     >
                       Agregar
@@ -283,8 +353,8 @@ export function MenuSection() {
           {hasMore && (
             <motion.button
               onClick={handleLoadMore}
-              className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all hover:text-primary-foreground"
-              whileHover={{ scale: 1.05 }}
+              className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all hover:text-white"
+              whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
               whileTap={{ scale: 0.95 }}
             >
               Cargar Más

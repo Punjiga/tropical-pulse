@@ -71,11 +71,11 @@ export function HeroSection() {
 
           <motion.a
             href="#menu"
-            className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg transition-all hover:bg-primary/80 hover:shadow-xl"
+            className="btn-refreshing mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-primary bg-transparent px-8 py-4 font-semibold text-primary shadow-lg transition-all hover:shadow-xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
             whileTap={{ scale: 0.95 }}
           >
             <span>Ver Menú</span>
@@ -87,7 +87,7 @@ export function HeroSection() {
       {/* Scroll Indicator */}
       <motion.a
         href="#manosas"
-        className="absolute bottom-16 left-1/2 -translate-x-1/2 cursor-pointer text-foreground/50"
+        className="absolute bottom-32 left-1/2 -translate-x-1/2 cursor-pointer text-foreground/50"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
         aria-label="Scroll down"
