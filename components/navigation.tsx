@@ -54,7 +54,7 @@ export function Navigation() {
               <motion.a
                 key={link.name}
                 href={link.href}
-                className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground"
+                className="nav-link-custom font-medium text-foreground/80 transition-colors hover:text-foreground"
               >
                 {link.name}
               </motion.a>

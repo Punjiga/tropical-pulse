@@ -94,7 +94,7 @@ export function ManosasSection() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: index * 0.15 }}
               style={{ "--glow-color": `${item.color}60` } as React.CSSProperties}
-              className="neon-glow cursor-pointer rounded-2xl bg-card shadow-lg transition-all"
+              className="neon-glow rounded-2xl bg-card shadow-lg transition-all"
             >
               {/* Card Header with Emoji - Moved overflow-hidden here */}
               <div

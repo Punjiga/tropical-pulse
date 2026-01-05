@@ -285,7 +285,7 @@ export function MenuSection() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
                 style={{ "--glow-color": `${item.color}60` } as React.CSSProperties}
-                className="neon-glow cursor-pointer rounded-xl bg-card shadow-md transition-all"
+                className="neon-glow rounded-xl bg-card shadow-md transition-all"
               >
                 {/* Card Header - Moved overflow-hidden here to avoid clipping neon glow */}
                 <div
