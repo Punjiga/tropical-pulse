@@ -66,6 +66,10 @@ export function Navigation() {
             <motion.button
               onClick={() => setIsOpen(true)}
               className="relative cursor-pointer rounded-full bg-primary p-2 text-primary-foreground shadow-md transition-all hover:bg-primary/90 hover:shadow-lg"
+              animate={cartCount > 0 ? { y: [0, -4, 0] } : {}}
+              transition={cartCount > 0 ? { duration: 2, repeat: Infinity, ease: "easeInOut" } : {}}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               aria-label={`Carrito con ${cartCount} items`}
             >
               <ShoppingCart className="h-5 w-5" />
@@ -77,9 +81,7 @@ export function Navigation() {
                     exit={{ scale: 0 }}
                     className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground"
                   >
-                    <motion.span>
-                      {cartCount}
-                    </motion.span>
+                    <span>{cartCount}</span>
                   </motion.span>
                 )}
               </AnimatePresence>

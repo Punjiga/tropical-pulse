@@ -210,7 +210,7 @@ export function MenuSection() {
           </div>
         </div>
       ),
-      duration: 5000,
+      duration: 3500,
       className: "border-l-4",
       style: { borderLeftColor: item.color }
     })
