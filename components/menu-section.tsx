@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCart } from "./cart-context"
 import { useToast } from "@/hooks/use-toast"
@@ -87,6 +87,34 @@ const menuItems = [
     color: "#9370DB",
     category: "Energía",
   },
+  // New Drinks
+  {
+    id: "green-goddess",
+    name: "Green Goddess",
+    emoji: "🥑",
+    description: "Aguacate, espinaca, piña y leche de almendra.",
+    price: 4500,
+    color: "#4CAF50",
+    category: "Detox",
+  },
+  {
+    id: "citrus-splash",
+    name: "Citrus Splash",
+    emoji: "🍊",
+    description: "Naranja, toronja y jengibre.",
+    price: 3800,
+    color: "#FFA500",
+    category: "Energía",
+  },
+  {
+    id: "choco-power",
+    name: "Choco Power",
+    emoji: "🍫",
+    description: "Cacao, banano y proteína de chocolate.",
+    price: 4300,
+    color: "#8D6E63",
+    category: "Proteína",
+  },
 ]
 
 const categories = ["Todos", "Detox", "Energía", "Proteína"]
@@ -94,15 +122,29 @@ const categories = ["Todos", "Detox", "Energía", "Proteína"]
 export function MenuSection() {
   const [activeCategory, setActiveCategory] = useState("Todos")
   const [visibleCount, setVisibleCount] = useState(6)
-  const { addItem, setIsOpen } = useCart()
+  const { addItem } = useCart()
   const { toast } = useToast()
+
+  // Responsive visible count
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(3)
+      } else {
+        setVisibleCount(6)
+      }
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const filteredItems =
     activeCategory === "Todos" ? menuItems : menuItems.filter((item) => item.category === activeCategory)
 
   const visibleItems = filteredItems.slice(0, visibleCount)
   const hasMore = visibleCount < filteredItems.length
-  const canCollapse = visibleCount > 6
+  const canCollapse = visibleCount > (window.innerWidth < 768 ? 3 : 6)
 
   const handleAddToCart = (item: (typeof menuItems)[0]) => {
     addItem({
@@ -116,11 +158,20 @@ export function MenuSection() {
       title: "¡Agregado al carrito!",
       description: `${item.name} se agregó correctamente.`,
       duration: 3000,
+      className: `border-l-4`,
+      style: { borderLeftColor: item.color }
     })
   }
 
-  const handleLoadMore = () => setVisibleCount((prev) => Math.min(prev + 3, filteredItems.length))
-  const handleShowLess = () => setVisibleCount(6)
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + (window.innerWidth < 768 ? 3 : 3), filteredItems.length))
+  }
+
+  const handleShowLess = () => {
+    setVisibleCount(window.innerWidth < 768 ? 3 : 6)
+    const menuSection = document.getElementById("menu")
+    menuSection?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <section id="menu" className="px-6 py-20 md:py-32">
@@ -151,11 +202,11 @@ export function MenuSection() {
               key={category}
               onClick={() => {
                 setActiveCategory(category)
-                setVisibleCount(6)
+                setVisibleCount(window.innerWidth < 768 ? 3 : 6)
               }}
               className={`cursor-pointer rounded-full px-5 py-2 font-medium transition-all ${activeCategory === category
-                ? "bg-primary text-primary-foreground shadow-md"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                 }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -176,8 +227,11 @@ export function MenuSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: index * 0.05 }}
-                whileHover={{ y: -4 }}
-                className="group cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow hover:shadow-lg"
+                whileHover={{
+                  y: -4,
+                  boxShadow: `0 0 15px ${item.color}80, 0 0 30px ${item.color}40`
+                }}
+                className="group cursor-pointer overflow-hidden rounded-xl bg-card shadow-md transition-shadow duration-300"
               >
                 {/* Card Header */}
                 <div
@@ -211,7 +265,7 @@ export function MenuSection() {
                     </span>
                     <motion.button
                       onClick={() => handleAddToCart(item)}
-                      className="cursor-pointer rounded-full bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/80"
+                      className="btn-refreshing cursor-pointer rounded-full bg-transparent border-2 border-primary px-3 py-1.5 text-sm font-semibold text-primary transition-all hover:text-primary-foreground"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -229,7 +283,7 @@ export function MenuSection() {
           {hasMore && (
             <motion.button
               onClick={handleLoadMore}
-              className="cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground"
+              className="btn-refreshing cursor-pointer rounded-full border-2 border-primary bg-transparent px-6 py-3 font-semibold text-primary transition-all hover:text-primary-foreground"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

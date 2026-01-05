@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, Check, Loader2, CreditCard, Banknote, Smartphone } from "lucide-react"
+import { ChevronLeft, Check, Loader2, CreditCard, Banknote, Smartphone, AlertCircle } from "lucide-react"
 import confetti from "canvas-confetti"
 
 interface CheckoutFormProps {
@@ -281,8 +281,8 @@ export function CheckoutForm({ onBack, onSuccess, total }: CheckoutFormProps) {
                     setErrors({})
                   }}
                   className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${paymentMethod === method.id
-                      ? "border-primary bg-primary/10"
-                      : "border-border bg-card hover:border-primary/50"
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-card hover:border-primary/50"
                     }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -383,8 +383,8 @@ export function CheckoutForm({ onBack, onSuccess, total }: CheckoutFormProps) {
                         setErrors({})
                       }}
                       className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-all ${cashOption === "exact"
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border text-muted-foreground hover:border-primary/50"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-muted-foreground hover:border-primary/50"
                         }`}
                     >
                       Monto Exacto
@@ -392,8 +392,8 @@ export function CheckoutForm({ onBack, onSuccess, total }: CheckoutFormProps) {
                     <button
                       onClick={() => setCashOption("change")}
                       className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-all ${cashOption === "change"
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border text-muted-foreground hover:border-primary/50"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-muted-foreground hover:border-primary/50"
                         }`}
                     >
                       Pagar con...

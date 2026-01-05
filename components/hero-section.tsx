@@ -87,7 +87,7 @@ export function HeroSection() {
       {/* Scroll Indicator */}
       <motion.a
         href="#manosas"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer text-foreground/50"
+        className="absolute bottom-16 left-1/2 -translate-x-1/2 cursor-pointer text-foreground/50"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
         aria-label="Scroll down"

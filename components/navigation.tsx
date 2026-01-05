@@ -30,7 +30,7 @@ export function Navigation() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass shadow-lg" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-4 ${scrolled ? "glass shadow-lg pt-0" : "bg-transparent"
         }`}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -113,17 +113,17 @@ export function Navigation() {
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
+            animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
-            className="glass border-t border-border md:hidden"
+            className="fixed inset-0 top-16 z-40 flex flex-col items-center justify-center bg-background/95 backdrop-blur-md md:hidden"
           >
-            <div className="flex flex-col gap-4 px-6 py-4">
+            <div className="flex flex-col items-center gap-8 px-6 py-4">
               {navLinks.map((link) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="cursor-pointer font-medium text-foreground/80 transition-colors hover:text-foreground"
+                  className="cursor-pointer font-serif text-3xl font-bold text-foreground transition-colors hover:text-primary"
                   whileTap={{ scale: 0.95 }}
                 >
                   {link.name}

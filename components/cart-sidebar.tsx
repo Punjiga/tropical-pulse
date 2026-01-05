@@ -32,20 +32,43 @@ export function CartSidebar() {
             className="fixed bottom-0 right-0 top-0 z-50 flex w-full max-w-md flex-col bg-card shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-border p-4">
-              <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-card-foreground">
-                <ShoppingBag className="h-6 w-6" />
-                Tu Carrito
-              </h2>
-              <motion.button
-                onClick={() => setIsOpen(false)}
-                className="cursor-pointer rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Cerrar carrito"
-              >
-                <X className="h-6 w-6" />
-              </motion.button>
+            <div className="border-b border-border p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="flex items-center gap-2 font-serif text-xl font-bold text-card-foreground">
+                  <ShoppingBag className="h-6 w-6" />
+                  Tu Carrito
+                </h2>
+                <motion.button
+                  onClick={() => setIsOpen(false)}
+                  className="cursor-pointer rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="Cerrar carrito"
+                >
+                  <X className="h-6 w-6" />
+                </motion.button>
+              </div>
+
+              {/* Shipping Progress */}
+              <div className="mt-2">
+                {total >= 10000 ? (
+                  <div className="rounded-lg bg-green-100 p-2 text-center text-sm font-bold text-green-700 dark:bg-green-900/30 dark:text-green-300">
+                    ✨ ¡Envío GRATIS! ✨
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <p className="mb-1 text-sm text-muted-foreground">
+                      Agrega <span className="font-bold text-primary">₡{(10000 - total).toLocaleString()}</span> para envío gratis
+                    </p>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className="h-full bg-primary transition-all duration-500"
+                        style={{ width: `${Math.min((total / 10000) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Content */}

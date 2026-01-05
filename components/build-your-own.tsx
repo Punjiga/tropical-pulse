@@ -117,9 +117,8 @@ export function BuildYourOwn() {
           {steps.map((step, index) => (
             <div key={step} className="flex items-center gap-2">
               <motion.div
-                className={`flex h-10 w-10 items-center justify-center rounded-full font-bold ${
-                  index <= currentStep ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
-                }`}
+                className={`flex h-10 w-10 items-center justify-center rounded-full font-bold ${index <= currentStep ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"
+                  }`}
                 animate={{ scale: index === currentStep ? 1.1 : 1 }}
               >
                 {index < currentStep ? <Check className="h-5 w-5" /> : index + 1}
@@ -146,7 +145,10 @@ export function BuildYourOwn() {
         </motion.div>
 
         {/* Step Content */}
-        <div className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg">
+        <motion.div
+          layout
+          className="mb-8 min-h-[300px] rounded-2xl bg-card p-6 shadow-lg overflow-hidden"
+        >
           <AnimatePresence mode="wait">
             {currentStep === 0 && (
               <motion.div
@@ -154,6 +156,7 @@ export function BuildYourOwn() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
               >
                 <h3 className="mb-6 text-center font-serif text-xl font-bold text-card-foreground">Elige tu Base</h3>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -161,11 +164,10 @@ export function BuildYourOwn() {
                     <motion.button
                       key={base.id}
                       onClick={() => setSelectedBase(base.id)}
-                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${
-                        selectedBase === base.id
+                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedBase === base.id
                           ? "bg-primary/20 ring-2 ring-primary"
                           : "bg-secondary hover:bg-secondary/80"
-                      }`}
+                        }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                     >
@@ -184,27 +186,35 @@ export function BuildYourOwn() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
               >
                 <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Elige tus Frutas</h3>
                 <p className="mb-6 text-center text-sm text-muted-foreground">Máximo 3 frutas</p>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                  {fruits.map((fruit) => (
-                    <motion.button
-                      key={fruit.id}
-                      onClick={() => toggleFruit(fruit.id)}
-                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${
-                        selectedFruits.includes(fruit.id)
-                          ? "bg-accent/20 ring-2 ring-accent"
-                          : "bg-secondary hover:bg-secondary/80"
-                      }`}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                    >
-                      <span className="emoji-shadow mb-2 block text-4xl">{fruit.emoji}</span>
-                      <span className="block text-sm font-medium text-card-foreground">{fruit.name}</span>
-                      <span className="text-xs text-muted-foreground">₡{fruit.price}</span>
-                    </motion.button>
-                  ))}
+                  {fruits.map((fruit) => {
+                    const isSelected = selectedFruits.includes(fruit.id);
+                    const isDisabled = !isSelected && selectedFruits.length >= 3;
+
+                    return (
+                      <motion.button
+                        key={fruit.id}
+                        onClick={() => !isDisabled && toggleFruit(fruit.id)}
+                        disabled={isDisabled}
+                        className={`cursor-pointer rounded-xl p-4 text-center transition-all ${isSelected
+                            ? "bg-accent/20 ring-2 ring-accent"
+                            : isDisabled
+                              ? "bg-secondary/50 opacity-50 cursor-not-allowed"
+                              : "bg-secondary hover:bg-secondary/80"
+                          }`}
+                        whileHover={!isDisabled ? { scale: 1.03 } : {}}
+                        whileTap={!isDisabled ? { scale: 0.97 } : {}}
+                      >
+                        <span className="emoji-shadow mb-2 block text-4xl">{fruit.emoji}</span>
+                        <span className="block text-sm font-medium text-card-foreground">{fruit.name}</span>
+                        <span className="text-xs text-muted-foreground">₡{fruit.price}</span>
+                      </motion.button>
+                    );
+                  })}
                 </div>
               </motion.div>
             )}
@@ -215,6 +225,7 @@ export function BuildYourOwn() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
               >
                 <h3 className="mb-2 text-center font-serif text-xl font-bold text-card-foreground">Agrega Extras</h3>
                 <p className="mb-6 text-center text-sm text-muted-foreground">Opcional - mejora tu smoothie</p>
@@ -223,11 +234,10 @@ export function BuildYourOwn() {
                     <motion.button
                       key={addon.id}
                       onClick={() => toggleAddon(addon.id)}
-                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${
-                        selectedAddons.includes(addon.id)
+                      className={`cursor-pointer rounded-xl p-4 text-center transition-all ${selectedAddons.includes(addon.id)
                           ? "bg-destructive/20 ring-2 ring-destructive"
                           : "bg-secondary hover:bg-secondary/80"
-                      }`}
+                        }`}
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                     >
@@ -240,17 +250,16 @@ export function BuildYourOwn() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between">
           <motion.button
             onClick={() => setCurrentStep((prev) => Math.max(0, prev - 1))}
-            className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${
-              currentStep === 0
+            className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${currentStep === 0
                 ? "cursor-not-allowed bg-secondary/50 text-muted-foreground"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-            }`}
+              }`}
             disabled={currentStep === 0}
             whileHover={currentStep > 0 ? { scale: 1.05 } : {}}
             whileTap={currentStep > 0 ? { scale: 0.95 } : {}}
@@ -262,11 +271,10 @@ export function BuildYourOwn() {
           {currentStep < 2 ? (
             <motion.button
               onClick={() => setCurrentStep((prev) => prev + 1)}
-              className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${
-                canProceed()
+              className={`flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all ${canProceed()
                   ? "bg-primary text-primary-foreground hover:bg-primary/90"
                   : "cursor-not-allowed bg-primary/50 text-primary-foreground/50"
-              }`}
+                }`}
               disabled={!canProceed()}
               whileHover={canProceed() ? { scale: 1.05 } : {}}
               whileTap={canProceed() ? { scale: 0.95 } : {}}
